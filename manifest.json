@@ -1,15 +1,17 @@
 {
-  "name": "BeGone",
-  "description": "Verberg VDAB posts van rekruteringbureaus",
-  "version": "0.5",
   "manifest_version": 3,
-  "action": {
-    "default_icon": "icon.png"
-  },
+  "name": "Begone Extension",
+  "version": "1.0",
+  "description": "Removes unwanted job posts",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["https://www.vdab.be/*"],
   "content_scripts": [
     {
-      "js": ["content.js"],
-      "matches": ["https://www.vdab.be/vindeenjob/*"]
+      "matches": ["https://www.vdab.be/*"],
+      "js": ["content.js"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }

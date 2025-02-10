@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blacklist Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 10px; width: 250px; }
+        input, button { margin: 5px 0; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; display: flex; justify-content: space-between; }
+        button.remove { background: red; color: white; border: none; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+    <h3>Company Blacklist</h3>
+    <input type="text" id="companyInput" placeholder="Add company">
+    <button id="addButton">Add</button>
+    <ul id="blacklist"></ul>
+    <script src="popup.js"></script>
+</body>
+</html>
