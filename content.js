@@ -92,19 +92,12 @@ async function filterList() {
 
 setTimeout(filterList, 2000);
 
-      if (vacatureDetails.length >= 2) {
-        const companyName = vacatureDetails[0].innerHTML.trim().toLowerCase();
-        const location = vacatureDetails[1].innerHTML.trim();
+let lastUrl = window.location.href;
 
-        if (blacklist.some(term => companyName.includes(term))) {
-          console.log(`Removing job posting from: ${companyName}`);
-          vacatures[i].remove();
-        }
-      } else {
-        console.warn(`No <strong> elements found inside .c-vacature-meta.-location for vacature ${i}`);
-      }
-    } else {
-      console.warn(`No .c-vacature-meta.-location found for vacature ${i}`);
-    }
+setInterval(() => {
+  let currentUrl = window.location.href;
+  if (lastUrl !== currentUrl) {
+    lastUrl = currentUrl;
+    setTimeout(filterList, 1000);
   }
-}, 3000); 
+}, 1000);
