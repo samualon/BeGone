@@ -77,14 +77,20 @@ async function filterList() {
   
   blacklist = blacklist.concat(defaultList).map(term => term.toLowerCase());
 
-setTimeout(() => {
   const vacatures = document.getElementsByClassName("c-vacature");
 
-  for (let i = 0; i < vacatures.length; i++) {
-    const vacatureLijn = vacatures[i].querySelector(".c-vacature-meta.-location");
+  for (let i = vacatures.length - 1; i >= 0; i--) {
+    const companyName = vacatures[i].querySelector(".c-vacature-meta").getElementsByTagName('span')[0].getElementsByTagName('strong')[0].innerHTML.toLowerCase();
 
-    if (vacatureLijn) {
-      const vacatureDetails = vacatureLijn.getElementsByTagName("strong");
+    if (blacklist.some(term => companyName.includes(term))) {
+      console.log(`❌ Removing job posting from: ${companyName}`);
+      vacatures[i].remove();
+    }   
+  }
+}
+
+
+setTimeout(filterList, 2000);
 
       if (vacatureDetails.length >= 2) {
         const companyName = vacatureDetails[0].innerHTML.trim().toLowerCase();
