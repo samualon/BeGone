@@ -50,3 +50,77 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   loadBlacklist();
 });
+
+// Export list
+document.getElementById("exportButton").addEventListener("click", async () => {
+    const blacklist = await getBlacklist();
+    if (blacklist.length === 0) {
+        alert("Your blacklist is empty!");
+        return;
+    }
+
+    const blob = new Blob([blacklist.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "blacklist.txt";  // Filename for the exported list
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url); // Cleanup
+});
+
+// Function to get the blacklist from Chrome storage
+async function getBlacklist() {
+    return new Promise(resolve => {
+        chrome.storage.local.get(["blacklist"], data => {
+            resolve(data.blacklist || []);
+        });
+    });
+}
+
+// Import list
+document.getElementById("importButton").addEventListener("click", () => {
+    document.getElementById("importFile").click(); // Open file selector
+});
+
+document.getElementById("importFile").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        const newCompanies = e.target.result.split("\n")
+            .map(line => line.trim().toLowerCase()) // Trim spaces & convert to lowercase
+            .filter(line => line.length > 0); // Remove empty lines
+
+        if (newCompanies.length === 0) {
+            alert("The file is empty or invalid.");
+            return;
+        }
+
+        // Get current blacklist from storage
+        const currentBlacklist = await getBlacklist();
+        const updatedBlacklist = Array.from(new Set([...currentBlacklist, ...newCompanies])); // Merge & remove duplicates
+
+        // Save the new blacklist
+        chrome.storage.local.set({ blacklist: updatedBlacklist }, () => {
+            alert("Blacklist imported successfully!");
+            loadBlacklist(); // Refresh the displayed list
+            chrome.tabs.reload(); // Refresh VDAB page
+        });
+    };
+
+    reader.readAsText(file); // Read the file as text
+});
+
+// Function to get the blacklist from Chrome storage
+async function getBlacklist() {
+    return new Promise(resolve => {
+        chrome.storage.local.get(["blacklist"], data => {
+            resolve(data.blacklist || []);
+        });
+    });
+}

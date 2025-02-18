@@ -18,10 +18,13 @@
     </style>
 </head>
 <body>
-    <h3>Company Blacklist</h3>
-    <input type="text" id="companyInput" placeholder="Add company">
-    <button id="addButton">Add</button>
-    <ul id="blacklist"></ul>
-    <script src="popup.js"></script>
+  <h3>Company Blacklist</h3>
+  <input type="text" id="companyInput" placeholder="Add company">
+  <button id="addButton">Add</button>
+  <ul id="blacklist"></ul>
+  <button id="exportButton">Export</button>
+  <input type="file" id="importFile" accept=".txt" style="display: none;">
+  <button id="importButton">Import</button>
+  <script src="popup.js"></script>
 </body>
 </html>
