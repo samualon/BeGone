@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "BeGone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Verwijder VDAB posts van rekruteringskantoren.",
   "permissions": ["storage", "scripting"],
   "host_permissions": ["https://www.vdab.be/*"],
