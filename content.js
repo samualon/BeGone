@@ -82,8 +82,11 @@ async function filterList() {
   for (let i = vacatures.length - 1; i >= 0; i--) {
     const companyName = vacatures[i].querySelector(".c-vacature-meta").getElementsByTagName('span')[0].getElementsByTagName('strong')[0].innerHTML.toLowerCase();
 
-    if (blacklist.some(term => companyName.includes(term))) {
-      console.log(`❌ Removing job posting from: ${companyName}`);
+    const parser = new DOMParser();
+    const companyNameDecoded = parser.parseFromString(companyName, "text/html").body.textContent || "";
+
+    if (blacklist.some(term => companyNameDecoded.includes(term))) {
+      console.log(`❌ Removing job posting from: ${companyNameDecoded}`);
       vacatures[i].remove();
     }   
   }
