@@ -50,3 +50,33 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   loadBlacklist();
 });
+
+// Export list
+document.getElementById("exportButton").addEventListener("click", async () => {
+    const blacklist = await getBlacklist();
+    if (blacklist.length === 0) {
+        alert("Your blacklist is empty!");
+        return;
+    }
+
+    const blob = new Blob([blacklist.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "blacklist.txt";  // Filename for the exported list
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url); // Cleanup
+});
+
+// Function to get the blacklist from Chrome storage
+async function getBlacklist() {
+    return new Promise(resolve => {
+        chrome.storage.local.get(["blacklist"], data => {
+            resolve(data.blacklist || []);
+        });
+    });
+}
